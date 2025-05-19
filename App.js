@@ -14,7 +14,6 @@ const productos =JSON.parse(localStorage.getItem("productos"))  || [] ;
 
 const inicalizacion = () => {
     const data = [
-
   {
     id: 1,
     title: "Producto Genérico 1",
@@ -63,7 +62,7 @@ const inicalizacion = () => {
 ];
 
 }
-data.foreach ((item) => {
+ data.foreach ((item) => {
     let prod = new Producto(
         item.id, 
         item.title, 
@@ -73,31 +72,19 @@ data.foreach ((item) => {
         item.image, 
     );
     productos.push(prod);
-});
+}); 
 
-localstorage.setItem("productos", JSON.stringify(data));
-
-
-/*   <div class="col">
-                <div class="card" style="width: 18rem;">
-                    <img src="..." class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card’s content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
-                    </div>
-                </div>
-            </div>
- */
+ localstorage.setItem("productos", JSON.stringify(data));
 
 
-let contenedor =document.querySelector("#contenedor");
+ let contenedor =document.querySelector("#contenedor");
 
 const listarProductos = () =>{
+  contenedor.innerHTML = "";
     productos.forEach ((item) =>{
+
         let columna = document.createElement("div");
-        columna.classList ="col ";
+        columna.classList ="col mb-3";
         
         let tarjeta = `<div class="card" style="width: 18rem;">
         <img src="${item.image}" class="card-img-top" alt="...">
@@ -110,7 +97,21 @@ const listarProductos = () =>{
 
     columna.innerHTML = tarjeta;
     contenedor.appendChild(columna);
-    });
-}
 
-listarProductos();
+    });
+};
+
+
+const marcarFavorito = (id) => {
+   let index =productos.findIndex((item) => {
+    return item.id == id;
+    });
+    productos[index].favorito = !productos[index].favorito;
+    localStorage.setItem("productos", JSON.stringify(productos));
+    listarProductos();
+};
+
+if(productos.length == 0){
+    inicalizacion();
+} 
+   listarProductos();   
