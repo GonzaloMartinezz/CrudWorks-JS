@@ -14,7 +14,7 @@ const productos =JSON.parse(localStorage.getItem("productos"))  || [] ;
 
 const inicalizacion = () => {
     const data = [
-        
+
   {
     id: 1,
     title: "Producto Genérico 1",
@@ -63,3 +63,54 @@ const inicalizacion = () => {
 ];
 
 }
+data.foreach ((item) => {
+    let prod = new Producto(
+        item.id, 
+        item.title, 
+        item.description, 
+        item.category, 
+        item.price, 
+        item.image, 
+    );
+    productos.push(prod);
+});
+
+localstorage.setItem("productos", JSON.stringify(data));
+
+
+/*   <div class="col">
+                <div class="card" style="width: 18rem;">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card’s content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
+            </div>
+ */
+
+
+let contenedor =document.querySelector("#contenedor");
+
+const listarProductos = () =>{
+    productos.forEach ((item) =>{
+        let columna = document.createElement("div");
+        columna.classList ="col ";
+        
+        let tarjeta = `<div class="card" style="width: 18rem;">
+        <img src="${item.image}" class="card-img-top" alt="...">
+        <div class="card-body">
+            <h5 class="card-title">${item.title}</h5>
+            <p class="card-text">${item.description}</p>
+            <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+    </div>`;
+
+    columna.innerHTML = tarjeta;
+    contenedor.appendChild(columna);
+    });
+}
+
+listarProductos();
